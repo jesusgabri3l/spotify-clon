@@ -1,7 +1,8 @@
-const numberWithCommas = (followers: number) => followers.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const numberWithCommas = (followers: number) =>
+  followers.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 const padTo2Digits = (num: number) => {
-  return num.toString().padStart(2, '0');
+  return num.toString().padStart(2, "0");
 };
 
 const millisToMinutesAndSeconds = (milliseconds: number) => {
@@ -14,22 +15,30 @@ const millisToMinutesAndSeconds = (milliseconds: number) => {
 };
 
 const getAlbumReleaseDate = (album: any) => {
-  if (album.release_date_precision === 'year') return album.release_date;
-  else if (album.release_date_precision === 'day') return getAlbumReleaseDateByDay(album);
+  if (album.release_date_precision === "year") return album.release_date;
+  else if (album.release_date_precision === "day")
+    return getAlbumReleaseDateByDay(album);
   else return getAlbumReleaseDateByDay(album);
 };
 
 const getAlbumReleaseDateByDay = (album: any) => {
-  const index = album.release_date.indexOf('-');
+  const index = album.release_date.indexOf("-");
   return album.release_date.slice(0, index);
 };
-const debounce = (fn: Function, ms = 300) => {
-  console.log(ms);
+const debounce = <Args extends unknown[]>(
+  fn: (...args: Args) => void,
+  ms = 300,
+) => {
   let timeoutId: ReturnType<typeof setTimeout>;
-  return function (this: any, ...args: any[]) {
+  return (...args: Args) => {
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => fn.apply(this, args), ms);
+    timeoutId = setTimeout(() => fn(...args), ms);
   };
 };
 
-export { getAlbumReleaseDate, numberWithCommas, millisToMinutesAndSeconds, debounce };
+export {
+  getAlbumReleaseDate,
+  numberWithCommas,
+  millisToMinutesAndSeconds,
+  debounce,
+};

@@ -1,5 +1,5 @@
-import { ReactElement } from 'react';
-import CustomLink from '../../../router/CustomLink';
+import { ReactElement } from "react";
+import CustomLink from "../../../router/CustomLink";
 
 const Links = (): ReactElement => {
   return (

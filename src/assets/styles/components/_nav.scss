@@ -1,117 +1,117 @@
 .navigator {
-    background-color: $COMPLEMENT-COLOR;
-    &__list{
-      @media only screen and (max-width: $MD-DESKTOP) {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-      }
-      &__item{
-        margin-bottom: 40px;
-        font-weight: 700;
-        @media only screen and (max-width: $MD-DESKTOP) {
-          margin-bottom: 0;
-        }
-        &__link{
-          i{
-            font-size: 20px;
-          }
-          span{
-            font-size: 17px;
-            @media only screen and (max-width: $M-PHONE) {
-              display: none;
-            }
-          }
-          *{
-            transition: all 0.3s;
-            color: $GRAY-COLOR;
-          }
-          &.active{
-            *{
-              color: $PRIMARY-COLOR;
-            }
-          }
-          &:hover{
-            *{
-              color: $WHITE-COLOR;
-            }
-          }
-        }
-      }
-    }
-    &__user{
-      position: fixed;
-      width: 230px;
-      left: 0;
-      bottom: 0;
-      border-radius: 0;
-      padding: 16px;
+  background-color: $COMPLEMENT-COLOR;
+  &__list {
+    @media only screen and (max-width: $MD-DESKTOP) {
       display: flex;
+      justify-content: space-around;
       align-items: center;
-      justify-content: center;
-      outline: none;
-      border: none;
-      cursor: pointer;
-      @media only screen and (max-width: $MD-DESKTOP) {
-        top: 10px;
-        height: 40px;
-        width: 80px;
-        left: calc(100vw - 100px);
-        border-radius: 32px;
-      }
-      @media only screen and (max-width: $M-PHONE) {
-        left: calc(100vw - 90px);
-      }
-      &__img{
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-      @media only screen and (max-width: $MD-DESKTOP) {
-        width: 24px;
-        height: 24px;
-      }
-      }
     }
-    &__dropdown{
-      position: absolute;
-      left: 230px;
-      bottom: 8px;
-      height: 120px;
-      width: 230px;
-      background-color: $COMPLEMENT-COLOR;
-      border-radius: 0.75rem;
-      padding: 16px;
-      visibility: hidden;
-      display: flex;
-      align-items: center;
-      transition: all 0.6s;
-      opacity: 0;
-      pointer-events: none;
+    &__item {
+      margin-bottom: 40px;
+      font-weight: 700;
       @media only screen and (max-width: $MD-DESKTOP) {
-        top: 40px;
-        left: -150px;
-        height: 320px;
-        width: 230px;
-        display: block;
+        margin-bottom: 0;
       }
-      
-      &.active{
-        pointer-events: all;
-        visibility: visible;
-        opacity: 1;
-        left: 250px;
-        @media only screen and (max-width: $MD-DESKTOP) {
-          left: -150px;
-          top: 50px;
+      &__link {
+        i {
+          font-size: 20px;
         }
-      }
-      &__list{
-        &__item{
-          border-radius: 0.75rem;
-          &:hover{
-            background-color: $ELEMENT-COLOR;
+        span {
+          font-size: 17px;
+          @media only screen and (max-width: $M-PHONE) {
+            display: none;
+          }
+        }
+        * {
+          transition: all 0.3s;
+          color: $GRAY-COLOR;
+        }
+        &.active {
+          * {
+            color: $PRIMARY-COLOR;
+          }
+        }
+        &:hover {
+          * {
+            color: $WHITE-COLOR;
           }
         }
       }
     }
   }
+  &__user {
+    position: fixed;
+    width: 230px;
+    left: 0;
+    bottom: 0;
+    border-radius: 0;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    @media only screen and (max-width: $MD-DESKTOP) {
+      top: 10px;
+      height: 40px;
+      width: 80px;
+      left: calc(100vw - 100px);
+      border-radius: 32px;
+    }
+    @media only screen and (max-width: $M-PHONE) {
+      left: calc(100vw - 90px);
+    }
+    &__img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      @media only screen and (max-width: $MD-DESKTOP) {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+  &__dropdown {
+    position: absolute;
+    left: 230px;
+    bottom: 8px;
+    height: 120px;
+    width: 230px;
+    background-color: $COMPLEMENT-COLOR;
+    border-radius: 0.75rem;
+    padding: 16px;
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    transition: all 0.6s;
+    opacity: 0;
+    pointer-events: none;
+    @media only screen and (max-width: $MD-DESKTOP) {
+      top: 40px;
+      left: -150px;
+      height: 320px;
+      width: 230px;
+      display: block;
+    }
+
+    &.active {
+      pointer-events: all;
+      visibility: visible;
+      opacity: 1;
+      left: 250px;
+      @media only screen and (max-width: $MD-DESKTOP) {
+        left: -150px;
+        top: 50px;
+      }
+    }
+    &__list {
+      &__item {
+        border-radius: 0.75rem;
+        &:hover {
+          background-color: $ELEMENT-COLOR;
+        }
+      }
+    }
+  }
+}

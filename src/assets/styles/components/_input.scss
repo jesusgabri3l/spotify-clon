@@ -1,23 +1,23 @@
 @mixin input {
-    background-color: $ELEMENT-COLOR;
+  background-color: $ELEMENT-COLOR;
+  outline: none;
+  padding: 10px 20px;
+  border-radius: 0.75rem;
+}
+.input {
+  @include input;
+}
+.search {
+  @include input;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &__input {
+    background-color: transparent;
     outline: none;
-    padding: 10px 20px;
-    border-radius: 0.75rem;
-}
-.input{
-    @include input;
-}
-.search{
-    @include input;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    &__input{
-        background-color: transparent;
-        outline: none;
-        width: 90%;
-        padding: 5px;
-        font-size: 14px;
-        height: 100%;
-    }
+    width: 90%;
+    padding: 5px;
+    font-size: 14px;
+    height: 100%;
+  }
 }

@@ -1,9 +1,9 @@
-import { UserStoreImpl } from '../store/UserStore';
+import { UserStoreImpl } from "../store/UserStore";
 
 export interface Image {
-    height?: number;
-    url?: string;
-    width?: number;
+  height?: number;
+  url?: string;
+  width?: number;
 }
 export interface PropsObserver {
   UserStore: UserStoreImpl;

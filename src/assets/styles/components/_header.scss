@@ -1,64 +1,76 @@
-$BLUE-GRADIENT : rgba(58, 121, 194, 0.7);
+$BLUE-GRADIENT: rgba(58, 121, 194, 0.7);
 $RED-GRADIENT: rgba(138, 31, 31, 0.7);
 $GREEN-GRADIENT: rgba(36, 86, 19, 0.7);
 
-.header{
-    height: 45vh;
-    width: 100%;
-    padding-left: 3rem;
-    &.blue{
-        background: linear-gradient(180deg, $BLUE-GRADIENT 10.42%, $BACKGROUND-COLOR 100%);
-    }
-    &.red{
-        background: linear-gradient(180deg, $RED-GRADIENT 10.42%, $BACKGROUND-COLOR 100%);
-    }
-    &.green{
-      background: linear-gradient(180deg, $GREEN-GRADIENT 10.42%, $BACKGROUND-COLOR 100%);
+.header {
+  height: 45vh;
+  width: 100%;
+  padding-left: 3rem;
+  &.blue {
+    background: linear-gradient(
+      180deg,
+      $BLUE-GRADIENT 10.42%,
+      $BACKGROUND-COLOR 100%
+    );
   }
+  &.red {
+    background: linear-gradient(
+      180deg,
+      $RED-GRADIENT 10.42%,
+      $BACKGROUND-COLOR 100%
+    );
+  }
+  &.green {
+    background: linear-gradient(
+      180deg,
+      $GREEN-GRADIENT 10.42%,
+      $BACKGROUND-COLOR 100%
+    );
+  }
+  @media only screen and (max-width: $TABLETS) {
+    padding-top: 30px;
+    padding-left: 0;
+  }
+  @media only screen and (max-width: $M-PHONE) {
+    padding: 30px 5px 0;
+  }
+  @media only screen and (max-width: $S-PHONE) {
+    padding-top: 15px;
+    height: 60vh;
+  }
+  &__name {
+    width: auto;
+  }
+  &__img {
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    @media only screen and (max-width: $MD-DESKTOP) {
+      height: 150px;
+      width: 150px;
+    }
+  }
+  &__following {
+    padding: 7px 10px;
+    border: 1px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     @media only screen and (max-width: $TABLETS) {
-      padding-top: 30px;
-      padding-left: 0;
+      margin-left: auto;
+      margin-right: auto;
     }
-    @media only screen and (max-width: $M-PHONE) {
-      padding: 30px 5px 0;
-    }
-    @media only screen and (max-width: $S-PHONE) {
-      padding-top: 15px;
-      height: 60vh;
-    }
-    &__name{
-      width: auto;
-    }
-    &__img{
-      height: 200px;
-      width: 200px;
-      border-radius: 50%;
-      object-fit: cover;
+  }
+  &--track-list {
+    &__img {
+      height: 220px;
+      width: 220px;
+      border-radius: 0;
       @media only screen and (max-width: $MD-DESKTOP) {
         height: 150px;
         width: 150px;
       }
     }
-    &__following{
-      padding: 7px 10px;
-      border: 1px solid #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      @media only screen and (max-width: $TABLETS) {
-        margin-left: auto;
-        margin-right: auto;
-      }
-    }
-    &--track-list{
-      &__img{
-        height: 220px;
-        width: 220px;
-        border-radius: 0;
-        @media only screen and (max-width: $MD-DESKTOP) {
-          height: 150px;
-          width: 150px;
-        }
-      }
-    }
   }
+}

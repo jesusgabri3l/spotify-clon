@@ -1,53 +1,52 @@
 @import "loader";
 @import "utilities";
-*{
-    box-sizing: border-box;
-    color: $WHITE-COLOR;
-    font-family: 'Poppins', sans-serif;
-    letter-spacing: 0.3px;
+* {
+  box-sizing: border-box;
+  color: $WHITE-COLOR;
+  font-family: "Poppins", sans-serif;
+  letter-spacing: 0.3px;
 }
-.main_wrapper{
-    width: 100%;
-    min-height: 100vh;
-    height: auto;
-    overflow-y: auto;
-    background-color: $BACKGROUND-COLOR;
+.main_wrapper {
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  overflow-y: auto;
+  background-color: $BACKGROUND-COLOR;
 }
-.element_wrapper{
-    background-color: $ELEMENT_COLOR;
-    border-radius: 0.75rem;
-    box-shadow: 0 3px 6px rgba(0,0,0, .16);
+.element_wrapper {
+  background-color: $ELEMENT_COLOR;
+  border-radius: 0.75rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
 }
 
-
-  .page_wrapper{
-    $NAV_WIDTH: 230px;
-    $NAV_HEIGHT: 50px;
-    &__nav{
-      position: fixed;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: $NAV_WIDTH;
-      padding: 30px 30px;
-      @media only screen and (max-width: $MD-DESKTOP) {
-        top: initial;
-        bottom: 0;
-        height: $NAV_HEIGHT;
-        width: 100%;
-        padding: 20px 30px;
-      }
-    }
-    &__content{
-      padding-left: $NAV_WIDTH;
-      min-height: 100%;
-      height: auto;
-      padding-bottom: 50px;
-      @media only screen and (max-width: $MD-DESKTOP) {
-        padding-left: 0;
-        min-height: calc(100% - $NAV_HEIGHT);
-        height: auto;
-        padding-bottom: calc( $NAV_HEIGHT + 50px );
-      }
+.page_wrapper {
+  $NAV_WIDTH: 230px;
+  $NAV_HEIGHT: 50px;
+  &__nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: $NAV_WIDTH;
+    padding: 30px 30px;
+    @media only screen and (max-width: $MD-DESKTOP) {
+      top: initial;
+      bottom: 0;
+      height: $NAV_HEIGHT;
+      width: 100%;
+      padding: 20px 30px;
     }
   }
+  &__content {
+    padding-left: $NAV_WIDTH;
+    min-height: 100%;
+    height: auto;
+    padding-bottom: 50px;
+    @media only screen and (max-width: $MD-DESKTOP) {
+      padding-left: 0;
+      min-height: calc(100% - $NAV_HEIGHT);
+      height: auto;
+      padding-bottom: calc($NAV_HEIGHT + 50px);
+    }
+  }
+}
