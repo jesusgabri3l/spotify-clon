@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import api from "../../services/api";
 import { debounce } from "../../utils";
 import Loader from "../../components/layouts/Loader";
@@ -7,12 +7,9 @@ import Artist from "../../components/cards/Artist/Artist";
 import Album from "../../components/cards/Album/Album";
 import Track from "../../components/layouts/Track/Track";
 import Playlist from "../../components/cards/Playlist/Playlist";
-import ErrorAlert from "../../components/alerts/ErrorAlert";
 const SearchPage = () => {
   const [infoSearch, setInfoSearch] = useState<any>();
-  const [newReleases, setNewReleases] = useState<any>();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
   const [inputValue, setInputValue] = useState<string>("");
   const fetchSearchInformation = useCallback(async (keywordChange: string) => {
@@ -30,20 +27,6 @@ const SearchPage = () => {
     () => debounce(fetchSearchInformation, 500),
     [fetchSearchInformation],
   );
-
-  useEffect(() => {
-    const getNewReleases = async () => {
-      try {
-        setLoading(true);
-        const { data: newReleasesResponse } = await api.getNewReleases();
-        setNewReleases(newReleasesResponse.albums.items);
-        setLoading(false);
-      } catch (err: any) {
-        if (err.response.status === 400) setError(true);
-      }
-    };
-    getNewReleases();
-  }, []);
 
   return (
     <div className="h-full w-full px-6 md:px-12">
@@ -63,48 +46,38 @@ const SearchPage = () => {
       </div>
       {loading ? (
         <Loader />
-      ) : !error ? (
+      ) : query ? (
         <div className="mt-12">
-          {query ? (
-            <div>
-              <section className="home__content__tracks mt-12">
-                <h3 className="home__content__title text-xl mb-2 font-bold mb-6 md:text-2xl">
-                  Tracks
-                </h3>
-                <div className="home__content__tracks__content mt-2">
-                  {infoSearch.tracks.items.map((track: any) => (
-                    <Track track={track} key={track.id} />
-                  ))}
-                </div>
-              </section>
-              <SectionFlex title="Artist">
-                {infoSearch.artists.items.map((artist: any) => (
-                  <Artist artist={artist} key={artist.id} />
-                ))}
-              </SectionFlex>
-              <SectionFlex title="Albums">
-                {infoSearch.albums.items.map((album: any) => (
-                  <Album album={album} key={album.id} />
-                ))}
-              </SectionFlex>
-              <SectionFlex title="Playlists">
-                {infoSearch.playlists.items.map((playlist: any) => (
-                  <Playlist playlist={playlist} key={playlist.id} />
-                ))}
-              </SectionFlex>
+          <section className="home__content__tracks mt-12">
+            <h3 className="home__content__title text-xl mb-2 font-bold mb-6 md:text-2xl">
+              Tracks
+            </h3>
+            <div className="home__content__tracks__content mt-2">
+              {infoSearch.tracks.items.map((track: any) => (
+                <Track track={track} key={track.id} />
+              ))}
             </div>
-          ) : (
-            <div className="mt-12">
-              <SectionFlex title="New Album Releases">
-                {newReleases.map((album: any) => (
-                  <Album album={album} key={album.id} />
-                ))}
-              </SectionFlex>
-            </div>
-          )}
+          </section>
+          <SectionFlex title="Artist">
+            {infoSearch.artists.items.map((artist: any) => (
+              <Artist artist={artist} key={artist.id} />
+            ))}
+          </SectionFlex>
+          <SectionFlex title="Albums">
+            {infoSearch.albums.items.map((album: any) => (
+              <Album album={album} key={album.id} />
+            ))}
+          </SectionFlex>
+          <SectionFlex title="Playlists">
+            {infoSearch.playlists.items.map((playlist: any) => (
+              <Playlist playlist={playlist} key={playlist.id} />
+            ))}
+          </SectionFlex>
         </div>
       ) : (
-        <ErrorAlert />
+        <p className="mt-12 text-gray">
+          Search for an artist, track, album, or playlist to get started.
+        </p>
       )}
     </div>
   );

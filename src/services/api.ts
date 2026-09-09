@@ -80,10 +80,4 @@ export default {
       { headers: getHeaders() },
     );
   },
-  getNewReleases(): Promise<AxiosResponse> {
-    return api.get(
-      `browse/new-releases/?country=${UserStore.getUserCountry()}&limit=16`,
-      { headers: getHeaders() },
-    );
-  },
 };

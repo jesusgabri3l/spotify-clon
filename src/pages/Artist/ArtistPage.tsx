@@ -6,9 +6,6 @@ import Loader from "../../components/layouts/Loader";
 import Track from "../../components/layouts/Track/Track";
 import { Track as TrackModel } from "../../components/layouts/Track/TrackModel";
 import FilterDiscography from "../../components/pages/ArtistPage/FilterDiscography";
-import SectionFlex from "../../components/layouts/SectionFlex";
-import { Artist as ArtistModel } from "../../components/cards/Artist/ArtistModel";
-import Artist from "../../components/cards/Artist/Artist";
 import InfoAlert from "../../components/alerts/InfoAlert";
 import ErrorAlert from "../../components/alerts/ErrorAlert";
 
@@ -18,7 +15,6 @@ const ArtistPage = () => {
 
   const [artistInfo, setArtistInfo] = useState<any>();
   const [artistTopTracks, setArtistTopTracks] = useState<any>();
-  const [relatedArtists, setRelatedArtists] = useState<ArtistModel[]>();
 
   const [seeMore, setSeeMore] = useState<boolean>(false);
 
@@ -56,17 +52,12 @@ const ArtistPage = () => {
       const { data: artist } = await api.getArtistInfo(id as string);
       const { data: artistTop } = await api.getArtistTopTracks(id as string);
       const { data: isFollowing } = await api.getCurrentUserInfo(
-        `/following/contains/?ids=${id}&type=artist`,
-      );
-      const { data: relatedArtistsResponse } = await api.getArtistInfo(
-        id as string,
-        "/related-artists",
+        `/library/contains?uris=spotify:artist:${id}`,
       );
       artist.display_name = artist.name;
       artist.following = isFollowing[0];
       setArtistInfo(artist);
       setArtistTopTracks(artistTop.tracks);
-      setRelatedArtists(relatedArtistsResponse.artists);
     } catch (err: any) {
       if (err.response.status === 404) navigate("/");
       if (err.response.status === 400) setError(true);
@@ -154,16 +145,6 @@ const ArtistPage = () => {
               </div>
             </div>
             <FilterDiscography id={id} />
-            {relatedArtists && relatedArtists.length > 0 && (
-              <SectionFlex title="Fans also listen to">
-                {relatedArtists &&
-                  relatedArtists.map((artist: ArtistModel, index: number) => {
-                    if (index < 6)
-                      return <Artist artist={artist} key={artist.id} />;
-                    else return null;
-                  })}
-              </SectionFlex>
-            )}
           </div>
         </>
       ) : (
