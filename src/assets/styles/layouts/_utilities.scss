@@ -65,6 +65,22 @@
     }
   }
 }
+// Spotify logo mark for the standalone login screen - same green-gradient
+// language as the navbar's login icon, just scaled up as a centerpiece.
+.login-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $PRIMARY-COLOR, #17a34a);
+
+  i {
+    color: $COMPLEMENT-COLOR;
+    font-size: 48px;
+  }
+}
 // Standalone info trigger for a [data-tooltip] popup placed away from any
 // nav item (e.g. Home's top-right "why is stuff disabled" hint). Sized a
 // bit bigger than the navbar's own icons (20px) so it reads as its own
