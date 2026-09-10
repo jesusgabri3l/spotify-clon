@@ -3,9 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://jesusgabri3l.github.io/spotify-clon",
   "scripts": {
     "dev": "vite",
+    "dev:vercel": "npx vercel dev",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run",
@@ -28,6 +28,7 @@
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
+    "@types/node": "^22.20.2",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
