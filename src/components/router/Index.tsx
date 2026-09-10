@@ -12,6 +12,7 @@ import AlbumPage from "../../pages/Album/AlbumPage";
 import SearchPage from "../../pages/Search/SearchPage";
 import PlaylistPage from "../../pages/Playlist/PlaylistPage";
 import MyMusic from "../../pages/MyMusic/MyMusic";
+import LoginInfo from "../../pages/Login/LoginInfo";
 
 const IndexRouter = (): ReactElement => {
   return (
@@ -34,6 +35,7 @@ const IndexRouter = (): ReactElement => {
             element={<DiscographyPage />}
           ></Route>
           <Route path="search" element={<SearchPage />}></Route>
+          <Route path="login" element={<LoginInfo />}></Route>
           <Route path="album/:id" element={<AlbumPage />}></Route>
           <Route
             path="playlist/:id"

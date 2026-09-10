@@ -1,10 +1,16 @@
 import { ReactElement, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { observer } from "mobx-react";
 import Dropdown from "./Dropdown";
-import auth from "../../../../services/auth";
 import userDefaultImg from "../../../../assets/images/default-user.png";
 import { PropsObserver } from "../../../../models/GlobalModels";
 
-const ProfileButton = ({ UserStore }: PropsObserver): ReactElement => {
+// observer() matters here, not just cosmetic: without it this component
+// doesn't re-render when UserStore.user is filled in after login, so it
+// kept showing the default avatar until some unrelated click (e.g. opening
+// the dropdown) forced a re-render and picked up the now-current value.
+const ProfileButton = observer(({ UserStore }: PropsObserver): ReactElement => {
+  const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [activeDropDown, setActiveDropdown] = useState<boolean>(false);
   const isLoggedIn = !!UserStore.getAccessToken();
@@ -17,10 +23,12 @@ const ProfileButton = ({ UserStore }: PropsObserver): ReactElement => {
   }, []);
 
   const handleClick = () => {
-    // Anonymous visitors have nothing personal to show in a dropdown - the
-    // profile icon just doubles as the "log in" affordance for them.
+    // Anonymous visitors have nothing personal to show in a dropdown - send
+    // them to a page explaining they likely can't log in (Spotify's
+    // Development Mode whitelist) instead of dropping them straight into a
+    // Spotify OAuth screen that will just fail for almost everyone.
     if (!isLoggedIn) {
-      void auth.sendRequestToAuth();
+      navigate("/login");
       return;
     }
     setActiveDropdown(!activeDropDown);
@@ -43,7 +51,7 @@ const ProfileButton = ({ UserStore }: PropsObserver): ReactElement => {
         />
       ) : (
         <span className="navigator__user__img navigator__user__img--login">
-          <i className="fa fa-sign-in-alt" aria-hidden="true" />
+          <i className="fab fa-spotify" aria-hidden="true" />
         </span>
       )}
       <p className="navigator__user__name text-m ml-3 hidden truncate xl:text-m xl:block">
@@ -52,6 +60,6 @@ const ProfileButton = ({ UserStore }: PropsObserver): ReactElement => {
       {isLoggedIn && <Dropdown active={activeDropDown} UserStore={UserStore} />}
     </div>
   );
-};
+});
 
 export default ProfileButton;

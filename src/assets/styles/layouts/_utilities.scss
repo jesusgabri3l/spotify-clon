@@ -93,7 +93,7 @@
 
   // Sits at the top-right corner, so the generic [data-tooltip] popup
   // (opens to the right) would render off-screen. Open it down and to the
-  // left instead, and drop the border - just doesn't read well here.
+  // left instead; keep the same green border as every other tooltip.
   &:hover::after,
   &:focus-visible::after {
     left: auto;
@@ -103,7 +103,6 @@
     transform: none;
     margin-left: 0;
     margin-top: 10px;
-    border: none;
   }
 }
 * {
