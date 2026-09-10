@@ -19,6 +19,7 @@ const IndexRouter = (): ReactElement => {
     <BrowserRouter>
       <Routes>
         <Route path="callback/*" element={<Callback UserStore={UserStore} />} />
+        <Route path="login" element={<LoginInfo />} />
         {/*  This is the main path for the whole application you can see all the routes are inside it,
             The element it renders is a layout component which has the Navbar component + Outlet from REACT ROUTER DOM
       */}
@@ -35,7 +36,6 @@ const IndexRouter = (): ReactElement => {
             element={<DiscographyPage />}
           ></Route>
           <Route path="search" element={<SearchPage />}></Route>
-          <Route path="login" element={<LoginInfo />}></Route>
           <Route path="album/:id" element={<AlbumPage />}></Route>
           <Route
             path="playlist/:id"
