@@ -1,8 +1,14 @@
-@import "normalize";
-@import "layouts/variables";
-@import "layouts/layouts";
-@import "components/input";
-@import "components/nav";
-@import "components/card";
-@import "components/header";
-@import "components/track";
+// Tailwind v4 renders utilities in a native CSS @layer, and any *unlayered*
+// rule beats a layered one regardless of specificity or source order. Without
+// this wrapper, the `* { color: $WHITE-COLOR }` reset below silently wins
+// over every Tailwind text-color utility (e.g. an active chip's `text-black`).
+@layer base {
+  @import "normalize";
+  @import "layouts/variables";
+  @import "layouts/layouts";
+  @import "components/input";
+  @import "components/nav";
+  @import "components/card";
+  @import "components/header";
+  @import "components/track";
+}

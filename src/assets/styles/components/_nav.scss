@@ -1,5 +1,11 @@
 .navigator {
   background-color: $COMPLEMENT-COLOR;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  @media only screen and (max-width: $MD-DESKTOP) {
+    height: auto;
+  }
   &__list {
     @media only screen and (max-width: $MD-DESKTOP) {
       display: flex;
@@ -36,7 +42,138 @@
             color: $WHITE-COLOR;
           }
         }
+
+        &--disabled {
+          cursor: not-allowed;
+          &:hover {
+            * {
+              color: $GRAY-COLOR;
+            }
+          }
+        }
+
+        &__info.fa {
+          font-size: 13px;
+          margin-left: 6px;
+        }
       }
+    }
+  }
+  &__playlists {
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    margin-top: 16px;
+    padding-bottom: 54px;
+    &__liked {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 4px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 700;
+      color: $GRAY-COLOR;
+      transition: color 0.2s;
+
+      &:hover {
+        color: $WHITE-COLOR;
+      }
+
+      &--disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+        &:hover {
+          color: $GRAY-COLOR;
+        }
+      }
+
+      &__info.fa {
+        font-size: 12px;
+        margin-left: 8px;
+        color: $GRAY-COLOR;
+      }
+
+      &__icon {
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #450af5, #c4efd9);
+
+        i {
+          font-size: 14px;
+          color: $WHITE-COLOR;
+        }
+      }
+    }
+
+    &__title {
+      margin: 20px 4px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: $GRAY-COLOR;
+    }
+
+    &__list {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+
+      li {
+        margin-bottom: 4px;
+      }
+
+      a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 4px;
+        border-radius: 4px;
+        font-size: 14px;
+        color: $GRAY-COLOR;
+        transition: color 0.2s;
+
+        &:hover {
+          color: $WHITE-COLOR;
+        }
+      }
+
+      &__cover {
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+        object-fit: cover;
+
+        &--empty {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: $ELEMENT-COLOR;
+
+          i {
+            font-size: 12px;
+          }
+        }
+      }
+
+      &__name {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+
+    &__empty {
+      margin: 4px;
+      font-size: 12px;
+      color: $GRAY-COLOR;
     }
   }
   &__user {
@@ -52,12 +189,16 @@
     outline: none;
     border: none;
     cursor: pointer;
+    z-index: 40;
     @media only screen and (max-width: $MD-DESKTOP) {
-      top: 10px;
-      height: 40px;
-      width: 80px;
-      left: calc(100vw - 100px);
-      border-radius: 32px;
+      top: 20px;
+      height: 55px;
+      width: 55px;
+      left: calc(100vw - 90px);
+      border-radius: 50%;
+      padding: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      background-color: rgba(0, 0, 0, 0.6);
     }
     @media only screen and (max-width: $M-PHONE) {
       left: calc(100vw - 90px);
@@ -67,8 +208,21 @@
       height: 32px;
       border-radius: 50%;
       @media only screen and (max-width: $MD-DESKTOP) {
-        width: 24px;
-        height: 24px;
+        width: 100%;
+        height: 100%;
+      }
+
+      &--login {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, $PRIMARY-COLOR, #17a34a);
+
+        i {
+          color: $COMPLEMENT-COLOR;
+          font-size: 14px;
+        }
       }
     }
   }
@@ -76,23 +230,29 @@
     position: absolute;
     left: 230px;
     bottom: 8px;
-    height: 120px;
     width: 230px;
     background-color: $COMPLEMENT-COLOR;
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 0.75rem;
-    padding: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    padding: 8px;
     visibility: hidden;
-    display: flex;
-    align-items: center;
-    transition: all 0.6s;
+    transition: 0.5s;
     opacity: 0;
     pointer-events: none;
+    z-index: 40;
     @media only screen and (max-width: $MD-DESKTOP) {
-      top: 40px;
-      left: -150px;
-      height: 320px;
-      width: 230px;
-      display: block;
+      // `bottom: 8px` above is never unset here, so this absolutely
+      // positioned box had both `top` and `bottom` specified at once with
+      // `height: auto` - per spec that makes the browser SOLVE for height
+      // from the top/bottom gap instead of sizing to content, which is what
+      // was collapsing this to ~18px regardless of how tall its children
+      // actually rendered (they just visibly spilled out past the box).
+      top: 45px;
+      bottom: auto;
+      left: -200px;
+      max-height: 400px;
+      width: 260px;
     }
 
     &.active {
@@ -101,16 +261,113 @@
       opacity: 1;
       left: 250px;
       @media only screen and (max-width: $MD-DESKTOP) {
-        left: -150px;
-        top: 50px;
+        left: -200px;
+        top: 65px;
       }
     }
+
+    // Playlists and divider are mobile-only (desktop already shows this in
+    // the sidebar). Plain SCSS media query, not Tailwind's xl:hidden: this
+    // file's breakpoints and Tailwind's are two separate systems, and mixing
+    // them here has bitten us before (cascade-layer / off-by-one bugs).
+    // IMPORTANT: the hide-on-desktop media query must live inside the SAME
+    // rule block as the base declarations - a later, unmediated declaration
+    // for the same selector overrides an earlier mediated one at equal
+    // specificity, which silently defeats it.
+    &__playlists {
+      max-height: 220px;
+      overflow-y: auto;
+      @media only screen and (min-width: $MD-DESKTOP + 1) {
+        display: none;
+      }
+    }
+
+    &__divider {
+      opacity: 0.15;
+      margin: 8px 0;
+      border-color: $GRAY-COLOR;
+      @media only screen and (min-width: $MD-DESKTOP + 1) {
+        display: none;
+      }
+    }
+
+    &__empty {
+      padding: 6px;
+      font-size: 12px;
+      color: $GRAY-COLOR;
+    }
+
     &__list {
+      width: 100%;
+
       &__item {
-        border-radius: 0.75rem;
+        border-radius: 0.5rem;
         &:hover {
-          background-color: $ELEMENT-COLOR;
+          background-color: $HOVER-ELEMENT-COLOR;
         }
+      }
+
+      &__button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 8px 10px;
+        text-align: left;
+        font-size: 14px;
+        color: $WHITE-COLOR;
+
+        i {
+          flex-shrink: 0;
+          width: 16px;
+          font-size: 14px;
+          color: $GRAY-COLOR;
+        }
+
+        &--danger:hover {
+          color: #f15e6c;
+          i {
+            color: #f15e6c;
+          }
+        }
+      }
+
+      &__cover {
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        border-radius: 4px;
+        object-fit: cover;
+
+        &--empty {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: $HOVER-ELEMENT-COLOR;
+
+          i {
+            width: auto;
+            font-size: 11px;
+          }
+        }
+
+        &--liked {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #450af5, #c4efd9);
+
+          i {
+            width: auto;
+            color: $WHITE-COLOR;
+          }
+        }
+      }
+
+      &__name {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
   }

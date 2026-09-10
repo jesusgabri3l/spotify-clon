@@ -15,7 +15,7 @@ import MyMusic from "../../pages/MyMusic/MyMusic";
 
 const IndexRouter = (): ReactElement => {
   return (
-    <BrowserRouter basename="/spotify-clon">
+    <BrowserRouter>
       <Routes>
         <Route path="callback/*" element={<Callback UserStore={UserStore} />} />
         {/*  This is the main path for the whole application you can see all the routes are inside it,
@@ -23,38 +23,18 @@ const IndexRouter = (): ReactElement => {
       */}
         <Route path="/" element={<Layout UserStore={UserStore} />}>
           <Route index element={<Home UserStore={UserStore} />} />
-          <Route
-            path="artist/:id"
-            element={
-              <ProtectedPage UserStore={UserStore}>
-                <ArtistPage />
-              </ProtectedPage>
-            }
-          ></Route>
+          {/* Public: catalog browsing works for anonymous visitors via the
+              Client Credentials flow (see services/publicAuth.ts), since
+              Spotify's Development Mode whitelist would otherwise block
+              anyone but the 5 approved test accounts from using the app at
+              all - see memory/project notes for why. */}
+          <Route path="artist/:id" element={<ArtistPage />}></Route>
           <Route
             path="artist/:id/discography"
-            element={
-              <ProtectedPage UserStore={UserStore}>
-                <DiscographyPage />
-              </ProtectedPage>
-            }
+            element={<DiscographyPage />}
           ></Route>
-          <Route
-            path="search"
-            element={
-              <ProtectedPage UserStore={UserStore}>
-                <SearchPage />
-              </ProtectedPage>
-            }
-          ></Route>
-          <Route
-            path="album/:id"
-            element={
-              <ProtectedPage UserStore={UserStore}>
-                <AlbumPage />
-              </ProtectedPage>
-            }
-          ></Route>
+          <Route path="search" element={<SearchPage />}></Route>
+          <Route path="album/:id" element={<AlbumPage />}></Route>
           <Route
             path="playlist/:id"
             element={

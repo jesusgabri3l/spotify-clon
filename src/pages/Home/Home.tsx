@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import api from "../../services/api";
 import Loader from "../../components/layouts/Loader";
 import Me from "./Me";
-import Login from "./Login";
+import PublicLanding from "./PublicLanding";
 import { PropsObserver } from "../../models/GlobalModels";
 
 // styles at 'pages/home/_home.scss'
@@ -46,7 +46,7 @@ const Home = observer(({ UserStore }: PropsObserver): ReactElement => {
   }, [UserStore.user.id]);
   const renderComponent = (): ReactElement => {
     if (isLogged) return <Me user={UserStore.user} />;
-    return <Login />;
+    return <PublicLanding />;
   };
   return <>{loading ? <Loader /> : renderComponent()}</>;
 });

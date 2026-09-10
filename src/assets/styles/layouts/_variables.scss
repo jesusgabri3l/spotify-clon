@@ -10,7 +10,9 @@ $GRAY-COLOR: #b3b3b3;
 
 //BREAK-POINTS
 $LG-DESKTOP: 1920px;
-$MD-DESKTOP: 1280px;
+// One pixel below Tailwind's `xl` breakpoint (min-width: 1280px) so this
+// mobile-mode ceiling and Tailwind's `xl:` utilities never overlap at 1280px.
+$MD-DESKTOP: 1279px;
 $TABLETS: 1024px;
 $S-TABLETS: 895px;
 $M-PHONE: 585px;

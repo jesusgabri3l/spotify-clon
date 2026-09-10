@@ -6,11 +6,35 @@
   font-family: "Poppins", sans-serif;
   letter-spacing: 0.3px;
 }
+// Without this, the overscroll/rubber-band area at the top or bottom of the
+// page (now that the document itself scrolls, not an inner div) flashes the
+// browser's default white instead of the app's background.
+// `height: 100%` (not `100vh`) all the way down: `vh` and the real viewport
+// height round differently at some zoom/DPI levels, leaving `.main_wrapper`
+// a fraction of a pixel taller than the window and forcing a permanent
+// scrollbar on every page, even ones whose content is short.
+html,
+body {
+  height: 100%;
+  background-color: $BACKGROUND-COLOR;
+}
+#root {
+  height: 100%;
+}
+// Browsers default <button> to cursor:default, not pointer (only <a href>
+// gets pointer for free) - every clickable button in the app was missing it.
+button:not(:disabled) {
+  cursor: pointer;
+}
 .main_wrapper {
+  // No overflow-y here: with height:auto this box always fits its content
+  // exactly, so it can never actually scroll - but merely setting a non-
+  // visible overflow makes it the sticky-positioning reference ancestor
+  // per spec, which breaks any `position: sticky` descendant (e.g. the
+  // back button) since the real scrolling happens on the document instead.
   width: 100%;
-  min-height: 100vh;
+  min-height: 100%;
   height: auto;
-  overflow-y: auto;
   background-color: $BACKGROUND-COLOR;
 }
 .element_wrapper {
@@ -21,7 +45,7 @@
 
 .page_wrapper {
   $NAV_WIDTH: 230px;
-  $NAV_HEIGHT: 50px;
+  $NAV_HEIGHT: 64px;
   &__nav {
     position: fixed;
     left: 0;
@@ -29,15 +53,28 @@
     height: 100%;
     width: $NAV_WIDTH;
     padding: 30px 30px;
+    z-index: 30;
     @media only screen and (max-width: $MD-DESKTOP) {
       top: initial;
       bottom: 0;
       height: $NAV_HEIGHT;
       width: 100%;
-      padding: 20px 30px;
+      padding: 16px 30px;
     }
   }
   &__content {
+    // Stays position:static on purpose: a positioned ancestor here would
+    // compete with the fixed nav for stacking order (both z-index:auto,
+    // later DOM node wins) and paint over it, making the nav unclickable.
+    //
+    // `display: flow-root` establishes a new block formatting context so a
+    // page's own top margin (e.g. Tailwind `mt-*` on its outermost div, like
+    // SearchPage's `mt-24`) can't collapse through this box and every
+    // ancestor above it (`.page_wrapper`, `.main_wrapper`, `#root`, `body`
+    // - none of them have padding/border to stop it) up into `body` itself.
+    // That collapse was rendering as ~96px of empty space above the whole
+    // page, forcing a scrollbar even on nearly-empty screens like Search.
+    display: flow-root;
     padding-left: $NAV_WIDTH;
     min-height: 100%;
     height: auto;
@@ -47,6 +84,37 @@
       min-height: calc(100% - $NAV_HEIGHT);
       height: auto;
       padding-bottom: calc($NAV_HEIGHT + 50px);
+    }
+  }
+
+  .back-button {
+    // position:fixed relative to the viewport, so on desktop it has to add
+    // $NAV_WIDTH back in explicitly or it renders underneath the fixed
+    // sidebar (which sits at z-index:30, above this button's 20).
+    position: fixed;
+    top: 20px;
+    left: calc(#{$NAV_WIDTH} + 20px);
+    z-index: 20;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    i {
+      font-size: 16px;
+    }
+
+    @media only screen and (max-width: $MD-DESKTOP) {
+      left: 20px;
     }
   }
 }

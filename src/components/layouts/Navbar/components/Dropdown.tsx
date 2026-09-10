@@ -13,48 +13,62 @@ const Dropdown = ({ active, UserStore }: Props): ReactElement => {
   };
   return (
     <div className={`navigator__dropdown ${active && "active"}`}>
-      <ul className="overflow-auto block h-2/3 block xl:hidden">
-        <li className="navigator__dropdown__list__item w-full text-xs" key="me">
+      <ul className="navigator__dropdown__playlists">
+        <li className="navigator__dropdown__list__item" key="me">
           <Link
             to="/playlist/me"
-            className="navigator__dropdown__list__button block p-3 text-left"
+            className="navigator__dropdown__list__button navigator__dropdown__list__button--liked"
           >
+            <span className="navigator__dropdown__list__cover navigator__dropdown__list__cover--liked">
+              <i className="fa fa-heart" aria-hidden="true" />
+            </span>
             Liked tracks
           </Link>
         </li>
         {UserStore.user.playlists && UserStore.user.playlists.length > 0 ? (
           UserStore.user.playlists.map((playlist: any) => (
-            <li
-              className="navigator__dropdown__list__item w-full text-xs"
-              key={playlist.id}
-            >
+            <li className="navigator__dropdown__list__item" key={playlist.id}>
               <Link
                 to={`/playlist/${playlist.id}`}
-                className="navigator__dropdown__list__button block p-3 text-left truncate text-xs"
+                className="navigator__dropdown__list__button"
               >
-                {playlist.name}
+                {playlist.images?.[0]?.url ? (
+                  <img
+                    src={playlist.images[0].url}
+                    alt=""
+                    className="navigator__dropdown__list__cover"
+                  />
+                ) : (
+                  <span className="navigator__dropdown__list__cover navigator__dropdown__list__cover--empty">
+                    <i className="fa fa-music" aria-hidden="true" />
+                  </span>
+                )}
+                <span className="navigator__dropdown__list__name">
+                  {playlist.name}
+                </span>
               </Link>
             </li>
           ))
         ) : (
-          <p className="text-xs text-left p-3">You have no playlists yet</p>
+          <p className="navigator__dropdown__empty">
+            You have no playlists yet
+          </p>
         )}
       </ul>
-      <hr className="block xl:hidden mt-4" />
-      <ul className="navigator__dropdown__list w-full block">
-        <li className="navigator__dropdown__list__item w-full text-sm">
-          <Link
-            to="/"
-            className="navigator__dropdown__list__button block p-3 text-left"
-          >
+      <hr className="navigator__dropdown__divider" />
+      <ul className="navigator__dropdown__list">
+        <li className="navigator__dropdown__list__item">
+          <Link to="/" className="navigator__dropdown__list__button">
+            <i className="fa fa-user" aria-hidden="true" />
             Profile
           </Link>
         </li>
-        <li className="navigator__dropdown__list__item w-full text-sm">
+        <li className="navigator__dropdown__list__item">
           <button
-            className="navigator__dropdown__list__button block p-3 w-full text-left"
+            className="navigator__dropdown__list__button navigator__dropdown__list__button--danger"
             onClick={Logout}
           >
+            <i className="fa fa-sign-out-alt" aria-hidden="true" />
             Logout
           </button>
         </li>

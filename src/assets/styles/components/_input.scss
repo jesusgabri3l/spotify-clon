@@ -20,4 +20,18 @@
     font-size: 14px;
     height: 100%;
   }
+  &__clear {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    color: $GRAY-COLOR;
+    &:hover {
+      color: $WHITE-COLOR;
+      background-color: $HOVER-ELEMENT-COLOR;
+    }
+  }
 }
