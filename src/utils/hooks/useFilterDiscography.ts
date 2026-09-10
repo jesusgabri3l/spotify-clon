@@ -17,7 +17,12 @@ const useFilterDiscography = () => {
   };
   const searchAlbumOrSingle = () => {
     if (keyword !== "") {
-      const itemsToFilter = filterBy === "album" ? albums : singles;
+      const itemsToFilter =
+        filterBy === "album"
+          ? albums
+          : filterBy === "single"
+            ? singles
+            : compilations;
       const itemsFiltered = itemsToFilter.filter((item: AlbumModel) =>
         item.name!.toLowerCase().includes(keyword.toLowerCase()),
       );

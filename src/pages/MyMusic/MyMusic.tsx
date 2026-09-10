@@ -42,7 +42,7 @@ const MyMusic = observer(({ UserStore }: PropsObserver) => {
       {loading ? (
         <Loader />
       ) : !error ? (
-        <div className="px-6 md:px-12 pt-12">
+        <div className="px-6 md:px-12 pt-24 lg:pt-20">
           <div className="flex gap-7 mb-12">
             <button
               onClick={() => discography.handleFilterDiscographyClick("album")}

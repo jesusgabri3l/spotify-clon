@@ -29,7 +29,7 @@ const HeaderProfile = ({ user, type = "user", actions }: Props) => {
           {user.display_name}
         </h2>
         <p className="header__profile text-base text-center text-gray mt-3 md:text-xl  lg:text-left lg:mt-6">
-          {numberWithCommas(user.followers.total)} followers
+          {numberWithCommas(user.followers?.total ?? 0)} followers
         </p>
         {type !== "user" && (
           <button

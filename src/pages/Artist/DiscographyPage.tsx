@@ -20,15 +20,15 @@ const DiscographyPage = () => {
         setLoading(true);
         const { data: albumsResponse } = await api.getArtistInfo(
           id as string,
-          "/albums/?include_groups=album&limit=50",
+          "/albums/?include_groups=album&limit=10",
         );
         const { data: singlesResponse } = await api.getArtistInfo(
           id as string,
-          "/albums/?include_groups=single&limit=50",
+          "/albums/?include_groups=single&limit=10",
         );
         const { data: compilationsResponse } = await api.getArtistInfo(
           id as string,
-          "/albums/?include_groups=compilation&limit=50",
+          "/albums/?include_groups=compilation&limit=10",
         );
         discography.setDataDiscography({
           albumsResponse: albumsResponse.items,
@@ -48,13 +48,14 @@ const DiscographyPage = () => {
     discography.searchAlbumOrSingle();
   }, [discography.keyword]);
   return (
-    <div className="h-full w-full pt-12 px-6 discographyPage md:px-12">
+    <div className="h-full w-full pt-16 px-6 discographyPage md:px-12">
       {loading ? (
         <Loader />
       ) : (
         <>
+          <h1 className="text-2xl font-bold mb-6 md:text-3xl">Discography</h1>
           <div className="flex gap-x-7 gap-y-5 flex-wrap">
-            <div className="search">
+            <div className="search w-full sm:w-80">
               <input
                 placeholder={`Search by ${discography.filterBy} name`}
                 className="search__input"
@@ -102,6 +103,10 @@ const DiscographyPage = () => {
               discography.items.map((album: any) => (
                 <Album album={album} key={album.id} />
               ))
+            ) : discography.keyword ? (
+              <InfoAlert
+                message={`No ${discography.filterBy}s match "${discography.keyword}"`}
+              />
             ) : (
               <InfoAlert
                 message={`Hey looks like this artist does not have any ${discography.filterBy} yet!`}

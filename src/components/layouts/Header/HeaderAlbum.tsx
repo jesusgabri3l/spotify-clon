@@ -4,7 +4,7 @@ const HeaderAlbum = ({ album }: any) => {
   return (
     <header className="header header--track-list green flex flex-col items-center lg:items-center lg:flex-row">
       <img
-        src={album.images[0].url}
+        src={album.images?.[0]?.url}
         className="header__img header--track-list__img shadow-xl"
       />
       <div className="lg:ml-12">

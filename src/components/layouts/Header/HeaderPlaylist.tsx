@@ -1,8 +1,8 @@
-const HeaderPlaylist = ({ playlist }: any) => {
+const HeaderPlaylist = ({ playlist, tracksTotal }: any) => {
   return (
     <header className="header header--track-list green flex flex-col items-center lg:items-center lg:flex-row">
       <img
-        src={playlist.images[0].url}
+        src={playlist.images?.[0]?.url}
         className="header__img header--track-list__img shadow-xl"
       />
       <div className="lg:ml-12">
@@ -17,10 +17,7 @@ const HeaderPlaylist = ({ playlist }: any) => {
         </h2>
         <p className="header__profile text-xs text-center font-bold mt-3 md:text-base  lg:text-left lg:mt-6">
           {playlist.owner.display_name}
-          <span className="font-normal text-gray">
-            {" "}
-            • {playlist.tracks.total} tracks
-          </span>
+          <span className="font-normal text-gray"> • {tracksTotal} tracks</span>
         </p>
       </div>
     </header>

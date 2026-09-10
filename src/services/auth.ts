@@ -8,7 +8,7 @@ const AuthURL: string = import.meta.env.VITE_AUTH_SPOTIFY_URI;
 
 const clientID: string = import.meta.env.VITE_CLIENT_ID;
 const scope: string =
-  "user-read-private user-read-email user-library-read user-top-read user-follow-read user-follow-modify";
+  "user-read-private user-read-email user-library-read user-top-read user-follow-read user-follow-modify playlist-read-private playlist-read-collaborative";
 const redirectURI: string = import.meta.env.VITE_REDIRECT_URI;
 const CODE_VERIFIER_KEY = "pkce_code_verifier";
 
@@ -20,10 +20,11 @@ api.interceptors.response.use(
   function (response) {
     return response;
   },
-  async function (error) {
-    if (error) {
-      console.log(error);
-    }
+  function (error) {
+    // Must re-reject: swallowing this made a failed token refresh resolve
+    // with `undefined` instead of rejecting, so callers (api.ts) couldn't
+    // tell a refresh had failed and log the user out.
+    return Promise.reject(error);
   },
 );
 

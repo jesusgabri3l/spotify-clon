@@ -19,8 +19,12 @@ const AlbumPage = () => {
         const { data } = await api.getAlbumInfo(id as string);
         setAlbumInfo(data);
       } catch (err: any) {
-        if (err.response.status === 404) navigate("/");
-        if (err.response.status === 400) setError(true);
+        // err.response is only set for a rejected Spotify request - a failed
+        // public-token fetch (see services/publicAuth.ts) or a network error
+        // has no .response at all, and would otherwise crash reading
+        // albumInfo.tracks below instead of showing the error state.
+        if (err.response?.status === 404) navigate("/");
+        else setError(true);
       } finally {
         setLoading(false);
       }

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import auth from "../../services/auth";
+import { UserStore } from "../../store/UserStore";
 import HeaderProfile from "../../components/layouts/Header/HeaderProfile";
 import Loader from "../../components/layouts/Loader";
 import Track from "../../components/layouts/Track/Track";
@@ -22,8 +24,12 @@ const ArtistPage = () => {
   const [error, setError] = useState<boolean>(false);
 
   const followAnArtist = async () => {
+    if (!UserStore.getAccessToken()) {
+      void auth.sendRequestToAuth();
+      return;
+    }
     try {
-      await api.putCurrentUserInfo(`/following/?ids=${id}&type=artist`);
+      await api.putCurrentUserInfo(`/library?uris=spotify:artist:${id}`);
       setArtistInfo({
         ...artistInfo,
         following: true,
@@ -36,7 +42,7 @@ const ArtistPage = () => {
 
   const unfollowAnArtist = async () => {
     try {
-      await api.deleteCurrentUserInfo(`/following/?ids=${id}&type=artist`);
+      await api.deleteCurrentUserInfo(`/library?uris=spotify:artist:${id}`);
       setArtistInfo({
         ...artistInfo,
         following: false,
@@ -50,17 +56,31 @@ const ArtistPage = () => {
     try {
       setLoading(true);
       const { data: artist } = await api.getArtistInfo(id as string);
-      const { data: artistTop } = await api.getArtistTopTracks(id as string);
-      const { data: isFollowing } = await api.getCurrentUserInfo(
-        `/library/contains?uris=spotify:artist:${id}`,
+      const { data: topTracksSearch } = await api.getArtistTopTracksApprox(
+        artist.name,
       );
+      // Following status is personal data - only check it when logged in,
+      // anonymous visitors just see an artist page they can't follow from.
+      const following = UserStore.getAccessToken()
+        ? (
+            await api.getCurrentUserInfo(
+              `/library/contains?uris=spotify:artist:${id}`,
+            )
+          ).data[0]
+        : false;
       artist.display_name = artist.name;
-      artist.following = isFollowing[0];
+      artist.following = following;
       setArtistInfo(artist);
-      setArtistTopTracks(artistTop.tracks);
+      // Spotify no longer returns `popularity` on track objects, so this is
+      // left in Search's own relevance order rather than re-sorted.
+      setArtistTopTracks(topTracksSearch.tracks.items);
     } catch (err: any) {
-      if (err.response.status === 404) navigate("/");
-      if (err.response.status === 400) setError(true);
+      // err.response is only set for a rejected Spotify request - a failed
+      // public-token fetch (see services/publicAuth.ts) or a network error
+      // has no .response at all, and would otherwise crash reading
+      // artistTopTracks below instead of showing the error state.
+      if (err.response?.status === 404) navigate("/");
+      else setError(true);
     } finally {
       setLoading(false);
     }

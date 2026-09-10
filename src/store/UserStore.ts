@@ -31,6 +31,7 @@ export class UserStoreImpl {
 
   Logout(): void {
     this.user = {};
+    this.auth = {};
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
   }

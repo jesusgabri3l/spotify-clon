@@ -4,7 +4,7 @@ import { Album as AlbumModel } from "./AlbumModel";
 const Album = ({ album }: { album: AlbumModel }) => {
   return (
     <Link to={`/album/${album.id}`} className="card p-4">
-      <img className="card__image" src={album.images && album.images[0].url} />
+      <img className="card__image" src={album.images?.[0]?.url} />
       <p className="card__name font-medium mt-5 text-base truncate">
         {album.name}
       </p>
