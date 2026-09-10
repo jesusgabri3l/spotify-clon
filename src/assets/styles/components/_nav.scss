@@ -81,10 +81,15 @@
       }
 
       &--disabled {
+        // Dim only the icon, not the whole row: `opacity` on the row itself
+        // also faded out its `[data-tooltip]` popup (a pseudo-element of
+        // this same box), making the tooltip look washed out on hover.
         cursor: not-allowed;
-        opacity: 0.6;
         &:hover {
           color: $GRAY-COLOR;
+        }
+        .navigator__playlists__liked__icon {
+          opacity: 0.6;
         }
       }
 

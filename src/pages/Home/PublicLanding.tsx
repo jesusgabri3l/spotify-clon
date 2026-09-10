@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import Artist from "../../components/cards/Artist/Artist";
 import Loader from "../../components/layouts/Loader";
+import { RESTRICTED_TOOLTIP } from "../../utils/restrictionMessage";
 
 // Spotify's Web API has no "global top artists" endpoint you can call
 // without a real user's listening history, so this is a hand-picked,
@@ -43,6 +44,9 @@ const PublicLanding = (): ReactElement => {
 
   return (
     <div className="w-full h-full px-6 md:px-12 pt-16">
+      <span className="info-badge" data-tooltip={RESTRICTED_TOOLTIP} tabIndex={0}>
+        <i className="fa fa-info-circle" aria-hidden="true" />
+      </span>
       <div className="max-w-xl">
         <h1 className="text-3xl font-bold mb-3 md:text-4xl">Explore Spotify</h1>
         <p className="text-gray mb-6">

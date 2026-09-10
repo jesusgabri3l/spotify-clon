@@ -65,6 +65,32 @@
     }
   }
 }
+// Standalone info trigger for a [data-tooltip] popup placed away from any
+// nav item (e.g. Home's top-right "why is stuff disabled" hint). Sized a
+// bit bigger than the navbar's own icons (20px) so it reads as its own
+// affordance instead of blending in.
+.info-badge {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 25;
+  font-size: 24px;
+  color: $GRAY-COLOR;
+  cursor: help;
+  transition: color 0.2s;
+
+  &:hover,
+  &:focus-visible {
+    color: $WHITE-COLOR;
+  }
+
+  @media only screen and (max-width: $MD-DESKTOP) {
+    // Clear of the mobile profile chip, which sits top:20px and reaches
+    // in from the right edge.
+    top: 20px;
+    right: 100px;
+  }
+}
 * {
   &::-webkit-scrollbar {
     width: 8px;
